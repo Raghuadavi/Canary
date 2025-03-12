@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: my-app-container
-          image: nginx:latest  # Replace with the canary version image
+          image: tomcat  # Replace with the canary version image
           ports:
             - containerPort: 8080
 ---
