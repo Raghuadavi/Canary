@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: helloworld-canary
+  name: helloworld
 spec:
   replicas: 4
   strategy:
