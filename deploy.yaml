@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: helloworld
-        image: christianhxc/helloworld:2.0
+        image: nginx:alpine
         ports:
         - containerPort: 80
         resources:
