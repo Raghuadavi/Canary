@@ -1,27 +1,37 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: helloworld
+  name: canary-app
+  labels:
+    app: my-app
+    version: canary
 spec:
-  replicas: 4
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5 
+  replicas: 4  # Canary version starts with fewer replicas
+  selector:
+    matchLabels:
+      app: my-app
+      version: canary
   template:
     metadata:
       labels:
-        app: helloworld
-        track: canary
+        app: my-app
+        version: canary
     spec:
       containers:
-      - name: helloworld
-        image: nginx:alpine
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            cpu: 50m
-          limits:
-            cpu: 100m
+        - name: my-app-container
+          image: nginx:latest  # Replace with the canary version image
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: canary-app-service
+spec:
+  selector:
+    app: my-app
+    version: canary
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
